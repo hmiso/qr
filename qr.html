@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        table{
+            border: 0px!important;
+        }
+        #app > * {
+            border: 1px solid green;
+        }
+
+        #app {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        #app > h1 {
+            grid-column: span 3;
+        }
+
+        .text {
+            grid-column: span 2;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div id="app">
+
+    <h1 class="p-3">Генератор QRCode</h1>
+
+    <div class="text">
+        <form>
+            <div class="form-group mx-3 my-3">
+                <label for="qrCodeText">Введите текст в поле:</label><br />
+                <input  id="qrCodeText" value="ST00012|Name=ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «РОГА И КОПЫТА»|PersonalAcc=40702810000000000000|BankName=НАЗВАНИЕ БАНКА|BIC=000000000|CorrespAcc=30101810200000000000|KPP=000001001|PayeeINN=00000000|Purpose=НАЗНАЧЕНИЕ ПЛАТЕЖА|Sum=0" class="form-control" rows="6"></textarea>
+            </div>
+            <div class="form-group  mx-3 my-3">
+                <input type="button"  class="btn btn-primary" value="Generate" id="generateQRCode">
+            </div>
+        </form>
+    </div>
+
+    <div id="qrCodeOutput" class="text-center">
+        Здесь будет сгенерированный QR-код
+    </div>
+
+</div>
+
+<!-- Подключаем библиотеку -->
+<script src="http://cosmic.mearie.org/2011/01/qrjs/qr.js"></script>
+
+<script>
+
+    /**
+     * Простая функция для получения DOM-элемента
+     *
+     * @param selector {string}
+     *
+     * @return HTMLElement
+     * */
+    const el = (selector) => document.querySelector(selector);
+
+
+    // при нажатии на кнопку
+    el('#generateQRCode').addEventListener('click', function() {
+
+        // получаем блок куда будет выводиться QR-код
+        let qrCodeOutput = el('#qrCodeOutput');
+
+        // получаем содержимое текстового поля
+        let text = el('#qrCodeText').value;
+
+        // очищаем блок с QR-кодом
+        qrCodeOutput.innerHTML = "";
+
+        // и помещаем в него сгенерированный библиотекой QR-код
+        qrCodeOutput.append(QRCode.generateHTML(text, {}))
+    });
+
+</script>
+</body>
+</html>
